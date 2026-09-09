@@ -1,4 +1,4 @@
-name: Validate Weather API Pipeline
+name: Validate Pipeline
 
 on:
   push:
@@ -9,38 +9,20 @@ on:
 
 jobs:
   validate:
-    name: Validate Code
     runs-on: ubuntu-latest
-
+    
     steps:
-    - name: Checkout code
+    - name: Checkout
       uses: actions/checkout@v4
-
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-    - name: Check Python syntax
-      run: |
-        python -m py_compile scripts/api_weather_pipeline.py || true
-        echo "Syntax check passed!"
-
-    - name: Display files
-      run: |
-        echo "Repository files:"
-        ls -la
-
-    - name: Validate pipeline exists
+    
+    - name: List files
+      run: ls -la
+    
+    - name: Check if script exists
       run: |
         if [ -f "scripts/api_weather_pipeline.py" ]; then
-          echo "✅ Pipeline file found!"
+          echo "✅ File exists"
         else
-          echo "❌ Pipeline file not found!"
+          echo "❌ File not found: scripts/api_weather_pipeline.py"
           exit 1
         fi
