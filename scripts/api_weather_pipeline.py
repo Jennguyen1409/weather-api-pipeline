@@ -4,9 +4,6 @@ from sqlalchemy import create_engine
 import logging
 import os
 
-# ============================================
-# SET UP LOGGING
-# ============================================
 os.makedirs('../logs', exist_ok=True)
 
 logging.basicConfig(
@@ -18,9 +15,6 @@ logging.basicConfig(
 logging.info("Pipeline started")
 print("Logging setup complete")
 
-# ============================================
-# EXTRACT - Fetch Data from API
-# ============================================
 def extract_data(cities):
     """Fetch weather data from Open-Meteo API"""
     all_data = []
@@ -43,7 +37,6 @@ def extract_data(cities):
     print(f"Total cities fetched: {len(all_data)}")
     return all_data
 
-# ============================================
 def transform_data(data):
     """Extract relevant fields from JSON response"""
     city = data['city']
@@ -62,12 +55,9 @@ def transform_data(data):
     }])
     
     logging.info(f"Data transformed successfully. Rows: {len(df)}")
-    print(f"✅ Transformed data for {city}: {current['temperature']}°C, Wind: {current['windspeed']} km/h")
+    print(f"Transformed data for {city}: {current['temperature']}°C, Wind: {current['windspeed']} km/h")
     return df
 
-# ============================================
-# LOAD - Write to PostgreSQL
-# ============================================
 def load_data(df):
     """Load data to PostgreSQL using append mode"""
     password = "Hoangbaongoc140906!"
@@ -78,10 +68,6 @@ def load_data(df):
     logging.info(f"Data loaded successfully. Rows: {len(df)}")
     print(f"Loaded {len(df)} rows to PostgreSQL")
 
-
-# ============================================
-# RUN PIPELINE
-# ============================================
 def run_pipeline():
     print("=" * 50)
     print("STARTING WEATHER API PIPELINE")
@@ -104,8 +90,5 @@ def run_pipeline():
     print("=" * 50)
     logging.info("Pipeline executed successfully")
 
-# ============================================
-# RUN
-# ============================================
 if __name__ == "__main__":
     run_pipeline()
