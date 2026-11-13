@@ -60,7 +60,7 @@ def transform_data(data):
 
 def load_data(df):
     """Load data to PostgreSQL using append mode"""
-    password = "Hoangbaongoc140906!"
+    password = "***"
     engine = create_engine(f"postgresql://postgres:{password}@localhost:5433/data_projects")
     
     df.to_sql('weather_data_v2', engine, if_exists='append', index=False)
